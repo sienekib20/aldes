@@ -1,0 +1,35 @@
+$viewport: (
+   h,
+   min-h,
+   max-h
+   w,
+   min-w,
+   max-w
+);
+
+@each $v in $viewport {
+
+   @for $i from 0 through 99 {
+      .#{$v}-#{$i} {
+         height: calc($i * 1%) !important;
+      }
+   }
+   .#{$v}-full {
+      height: 100%;
+   }
+}
+
+@each $prefix, $val in $breakpoints {
+   @media (min-width: $val) {
+      @each $v in $viewport {
+         @for $i from 0 through 99 {
+            .#{$prefix}\:#{$v}-#{$i} {
+               height: calc($i * 1%) !important;
+            }
+         }
+         .#{$prefix}\:#{$v}-full {
+            height: 100%;
+         }
+      }  
+   }
+}

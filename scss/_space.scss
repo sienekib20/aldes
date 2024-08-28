@@ -1,0 +1,179 @@
+$spaces: (
+   m: margin,
+   p: padding
+);
+
+$axis: (
+   a: '',
+   t: top,
+   r: right,
+   b: bottom,
+   l: left
+);
+
+$valores: (
+   0: 0rem,
+   1: 0.25rem,
+   2: 0.5rem,
+   3: 1rem,
+   4: 1.5rem,
+   5: 3rem,
+   6: 3.25rem,
+   7: 3.5rem,
+   8: 4rem,
+   9: 4.5rem,
+   10: 9rem,
+   11: 9.25rem,
+   12: 9.5rem,
+   13: 10rem,
+   14: 10.5rem,
+   15: 20rem
+);
+
+@each $prefix, $props in $spaces {
+   @each $sufix, $comp in $axis {
+      $prop: $props;
+      $class: ".#{$prefix}";
+
+      @if $sufix !=a {
+         $prop: $prop + "-#{$comp}";
+         $class: "#{$class}#{$sufix}";
+      }
+
+      @for $i from 0 through 15 {
+         $last: "";
+
+         @if ($sufix ==t or $sufix ==b) {
+            $last: "#{$class}-#{$i}, .my-#{$i}"
+         }
+
+         @else if ($sufix ==r or $sufix ==l) {
+            $last: "#{$class}-#{$i}, .mx-#{$i}"
+         }
+
+         @else if ($sufix ==a) {
+            $last: "#{$class}-#{$i}";
+         }
+
+         #{$last} {
+            #{$prop}: map-get($valores, $i) !important;
+         }
+      }
+
+   }
+
+}
+
+// 
+
+@each $prefix, $props in $spaces {
+   @each $sufix, $comp in $axis {
+      $prop: $props;
+      $class: ".#{$prefix}";
+
+      @if $sufix !=a {
+         $prop: $prop + "-#{$comp}";
+         $class: "#{$class}#{$sufix}";
+      }
+
+      @for $i from 0 through 15 {
+         $last: "";
+
+         @if ($sufix ==t or $sufix ==b) {
+            $last: "#{$class}-#{$i}n, .my-#{$i}n"
+         }
+
+         @else if ($sufix ==r or $sufix ==l) {
+            $last: "#{$class}-#{$i}n, .mx-#{$i}n"
+         }
+
+         @else if ($sufix ==a) {
+            $last: "#{$class}-#{$i}n";
+         }
+
+         $valr: map-get($valores, $i) !important;
+
+         #{$last} {
+            #{$prop}: -$valr;
+         }
+      }
+
+   }
+
+}
+
+@each $media-prefix, $val in $breakpoints {
+   @media (min-width: $val) {
+      @each $prefix, $props in $spaces {
+         @each $sufix, $comp in $axis {
+            $prop: $props;
+            $class: "#{$prefix}";
+
+            @if $sufix !=a {
+               $prop: $prop + "-#{$comp}";
+               $class: "#{$class}#{$sufix}";
+            }
+
+            @for $i from 0 through 15 {
+               $last: "";
+
+               @if ($sufix ==t or $sufix ==b) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}, .#{$media-prefix}\\:my-#{$i}"
+               }
+
+               @else if ($sufix ==r or $sufix ==l) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}, .#{$media-prefix}\\:mx-#{$i}"
+               }
+
+               @else if ($sufix ==a) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}";
+               }
+
+               #{$last} {
+                  #{$prop}: map-get($valores, $i) !important;
+               }
+            }
+
+         }
+
+      }
+
+      // 
+
+      @each $prefix, $props in $spaces {
+         @each $sufix, $comp in $axis {
+            $prop: $props;
+            $class: "#{$prefix}";
+
+            @if $sufix !=a {
+               $prop: $prop + "-#{$comp}";
+               $class: "#{$class}#{$sufix}";
+            }
+
+            @for $i from 0 through 15 {
+               $last: "";
+
+               @if ($sufix ==t or $sufix ==b) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}n, .#{$media-prefix}\\:my-#{$i}n"
+               }
+
+               @else if ($sufix ==r or $sufix ==l) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}n, .#{$media-prefix}\\:mx-#{$i}n"
+               }
+
+               @else if ($sufix ==a) {
+                  $last: ".#{$media-prefix}\\:#{$class}-#{$i}n";
+               }
+
+               $valr: map-get($valores, $i) !important;
+
+               #{$last} {
+                  #{$prop}: -$valr;
+               }
+            }
+
+         }
+
+      }
+   }
+}

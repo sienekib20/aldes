@@ -1,0 +1,132 @@
+$displays: (
+   block: block,
+   inline: inline,
+   inline-block: inline-block,
+   flex: flex,
+   grid: grid,
+   hidden: none,
+   table: table
+);
+
+@each $key, $val in $displays {
+   .#{$key} {
+      display: $val !important;
+   }
+}
+
+@each $pr, $v in $breakpoints {
+   @media (min-width: $v) {
+      @each $key, $val in $displays {
+         .#{$pr}\:#{$key} {
+            display: $val !important;
+         }
+      }
+   }
+}
+
+$al: (
+   align: (start: flex-start,
+      end: flex-end,
+      center: center,
+      baseline: baseline),
+   justify: (start: flex-start,
+      end: flex-end,
+      center: center,
+      baseline: baseline,
+      between: space-between,
+      around: space-around,
+      evenly: space-evenly)
+);
+
+@each $a, $items in $al {
+   @each $pr, $val in $items {
+      .#{$a}-#{$pr} {
+         @if $a ==align {
+            align-items: $val !important;
+         }
+
+         @else {
+            justify-content: $val !important;
+         }
+      }
+   }
+}
+
+.wrap {
+   flex-wrap: wrap;
+}
+
+.nowrap {
+   flex-wrap: nowrap;
+}
+
+.row {
+   flex-direction: row;
+}
+
+.row-reverse {
+   flex-direction: row-reverse;
+}
+
+.column {
+   flex-direction: column;
+}
+
+.column-reverse {
+   flex-direction: column-reverse;
+}
+
+@for $i from 0 through 10 {
+   .op-#{$i} {
+      opacity: calc($i * 0.1);
+   }
+}
+
+
+@each $prefix, $value in $breakpoints {
+   @media (min-width: $value) {
+      @each $a, $items in $al {
+         @each $pr, $val in $items {
+            .#{$prefix}\:#{$a}-#{$pr} {
+               @if $a ==align {
+                  align-items: $val !important;
+               }
+
+               @else {
+                  justify-content: $val !important;
+               }
+            }
+         }
+      }
+
+      .#{$prefix}\:wrap {
+         flex-wrap: wrap;
+      }
+
+      .#{$prefix}\:nowrap {
+         flex-wrap: nowrap;
+      }
+
+      .#{$prefix}\:row {
+         flex-direction: row;
+      }
+
+      .#{$prefix}\:row-reverse {
+         flex-direction: row-reverse;
+      }
+
+      .#{$prefix}\:column {
+         flex-direction: column;
+      }
+
+      .#{$prefix}\:column-reverse {
+         flex-direction: column-reverse;
+      }
+
+      @for $i from 0 through 10 {
+         .#{$prefix}\:op-#{$i} {
+            opacity: calc($i * 0.1);
+         }
+      }
+   }
+}
